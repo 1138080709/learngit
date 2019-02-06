@@ -1,0 +1,31 @@
+#include<iostream>
+using namespace std
+void main(){
+	int C_num;
+	while(true)
+	{
+		cout<<"请选择用户权限"<<endl;
+		cout<<"1、教师权限"<<endl;
+		cout<<"2、学生权限"<<endl;
+		cout<<"（教师权限编号：1	学生权限编号：2）"<<endl;
+		cin>>C_num;
+		switch(C_num)
+		{
+			case 1:T_User();break;
+			case 2:S_User();break;
+			default:cout<<"请输入正确的用户编号！"<<endl;
+		}
+		break;
+	}
+}
+int T_User()
+{
+	cout<<"欢迎进入教师频道！！！"<<endl;
+	return 1;
+}
+int S_User()
+{
+	cout<<"欢迎进入学生频道！！！"<<endl;
+
+	return 1;
+}
