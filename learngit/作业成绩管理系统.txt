@@ -26,34 +26,31 @@ int T_User()
 {
 	string password;
 	int C_num;
+	int J_Information();
+	int S_Information();
 	while(true)
 	{
 		cout<<"请输入教师频道登录密码：";
 		cin>>password;
 		if(password=="123456")//教师登录密码可进一步延伸
 		{
-			cout<<"欢迎进入教师频道！！！"<<endl;
-			cout<<"1、创建作业"<<endl;
-			cout<<"2、录入作业成绩"<<endl;
-			cout<<"3、修改作业成绩"<<endl;
-			cout<<"4、查看作业成绩"<<endl;
-			cout<<"5、统计作业"<<endl;
-			cout<<"6、删除作业"<<endl;
-			cout<<"7、返回"<<endl;
-			cout<<"0、退出"<<endl;
-			cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
-			cin>>C_num;
-			switch(C_num)
+			while(true)
 			{
-				case 1:break;
-				case 2:break;
-				case 3:break;
-				case 4:break;
-				case 5:break;
-				case 6:break;
-				case 7:return 1;
-				case 0:exit(0);break;
-				default:cout<<"请输入正确的用户编号！"<<endl;break;
+				cout<<"欢迎进入教师频道！！！"<<endl;
+				cout<<"1、学生信息管理"<<endl;
+				cout<<"2、作业信息管理"<<endl;
+				cout<<"3、返回"<<endl;
+				cout<<"0、退出"<<endl;
+				cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
+				cin>>C_num;
+				switch(C_num)
+				{
+					case 1:S_Information();break;
+					case 2:J_Information();break;
+					case 3:return 1;
+					case 0:exit(0);break;
+					default:cout<<"请输入正确的用户编号！"<<endl;break;
+				}
 			}
 		}
 		else 
@@ -79,6 +76,60 @@ int S_User()
 			case 2:break;
 			case 3:break;
 			case 4:return 1;
+			case 0:exit(0);break;
+			default:cout<<"请输入正确的用户编号！"<<endl;break;
+		}
+	}
+}
+int J_Information()
+{
+	int J_num;
+	while(true)
+	{
+		cout<<"1、创建作业"<<endl;
+		cout<<"2、录入作业成绩"<<endl;
+		cout<<"3、修改作业成绩"<<endl;
+		cout<<"4、查看作业成绩"<<endl;
+		cout<<"5、统计作业"<<endl;
+		cout<<"6、删除作业"<<endl;
+		cout<<"7、返回"<<endl;
+		cout<<"0、退出"<<endl;
+		cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
+		cin>>J_num;
+		switch(J_num)
+		{
+			case 1:break;
+			case 2:break;
+			case 3:break;
+			case 4:break;
+			case 5:break;
+			case 6:break;
+			case 7:return 1;
+			case 0:exit(0);break;
+			default:cout<<"请输入正确的用户编号！"<<endl;break;
+		}
+	}
+}
+int S_Information()
+{
+	int S_num;
+	while(true)
+	{
+		cout<<"1、添加学生信息"<<endl;
+		cout<<"2、查看学生信息"<<endl;
+		cout<<"3、修改学生信息"<<endl;
+		cout<<"4、删除学生信息"<<endl;
+		cout<<"5、返回"<<endl;
+		cout<<"0、退出"<<endl;
+		cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
+		cin>>S_num;
+		switch(S_num)
+		{
+			case 1:break;
+			case 2:break;
+			case 3:break;
+			case 4:break;
+			case 5:return 1;
 			case 0:exit(0);break;
 			default:cout<<"请输入正确的用户编号！"<<endl;break;
 		}
