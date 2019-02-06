@@ -1,7 +1,9 @@
 #include<iostream>
-using namespace std
+using namespace std;
 void main(){
 	int C_num;
+	int T_User();
+	int S_User();
 	while(true)
 	{
 		cout<<"请选择用户权限"<<endl;
@@ -13,7 +15,7 @@ void main(){
 		{
 			case 1:T_User();break;
 			case 2:S_User();break;
-			default:cout<<"请输入正确的用户编号！"<<endl;
+			default:cout<<"请输入正确的用户编号！"<<endl;break;
 		}
 		break;
 	}
