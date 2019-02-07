@@ -1,32 +1,39 @@
 #include<iostream>
 #include<string>
 using namespace std;
-typedef struct node1* S_Information;
-typedef struct node2* J_Information;
-typedef struct node3* J_grade;
-struct node1
+typedef struct S_Information* S_pointer;
+typedef struct J_Information* J_pointer;
+typedef struct J_grade* G_pointer;
+struct S_Information
 {
 	int S_no;
 	string S_name;
-	S_Information next;
+	S_pointer next;
 };
-struct node2
+struct J_Information
 {
 	int J_no;
 	string J_content;
-	J_grade grade; 
-	J_Information next;
-}
-struct node3
+	G_pointer grade; 
+	J_pointer next;
+};
+struct J_grade
 {
 	int S_no;
-	int S_grade;;
-	J_grade next;
-}
+	int S_grade;
+	G_pointer next;
+};
+typedef S_pointer lklist;
+void Add_S_Information(lklist head);
+void View_S_Information(lklist head);
+lklist S_I_1=new S_Information;
+S_pointer rear;
 void main(){
 	int C_num;
 	int T_User();
 	int S_User();
+	S_I_1->next=NULL;
+	rear=S_I_1;
 	while(true)
 	{
 		cout<<"请选择用户权限（输入权限编号）"<<endl;
@@ -147,8 +154,12 @@ int S_I_Control()
 		cin>>S_num;
 		switch(S_num)
 		{
-			case 1:break;
-			case 2:break;
+			case 1:Add_S_Information(S_I_1);break;
+			case 2:if(S_I_1->next==NULL)
+					   cout<<"暂无学生信息，请先添加学生信息"<<endl;
+				   else
+					   View_S_Information(S_I_1);
+					break;
 			case 3:break;
 			case 4:break;
 			case 5:return 1;
@@ -157,12 +168,39 @@ int S_I_Control()
 		}
 	}
 }
-void Add_S_Information()
+void Add_S_Information(lklist head)
 {
-
+	S_pointer s;
+	int no,num;
+	string name;
+	while(true)
+	{
+		cout<<"请输入学生学号："<<endl;
+		cin>>no;
+		cout<<"请输入学生姓名："<<endl;
+		cin>>name;
+		s=new S_Information;
+		s->S_no=no;
+		s->S_name=name;	
+		rear->next=s;
+		rear=s;
+		cout<<"是否继续添加（输入0继续添加，输入任意健返回菜单）"<<endl;
+		cin>>num;
+		if(num!=0)
+			break;
+	}
+	rear->next=NULL;
 }
-void View_S_Information()
+void View_S_Information(lklist head)
 {
+	S_pointer p;
+	p=head->next;
+	cout<<"学号      姓名"<<endl;
+	while(p!=NULL)
+	{
+		cout<<p->S_no<<" "<<p->S_name<<endl;
+		p=p->next;
+	}
 }
 void Change_S_Information()
 {
