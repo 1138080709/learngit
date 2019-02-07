@@ -1,6 +1,28 @@
 #include<iostream>
 #include<string>
 using namespace std;
+typedef struct node1* S_Information;
+typedef struct node2* J_Information;
+typedef struct node3* J_grade;
+struct node1
+{
+	int S_no;
+	string S_name;
+	S_Information next;
+};
+struct node2
+{
+	int J_no;
+	string J_content;
+	J_grade grade; 
+	J_Information next;
+}
+struct node3
+{
+	int S_no;
+	int S_grade;;
+	J_grade next;
+}
 void main(){
 	int C_num;
 	int T_User();
@@ -26,8 +48,8 @@ int T_User()
 {
 	string password;
 	int C_num;
-	int J_Information();
-	int S_Information();
+	int J_I_Control();
+	int S_I_Control();
 	while(true)
 	{
 		cout<<"请输入教师频道登录密码：";
@@ -45,8 +67,8 @@ int T_User()
 				cin>>C_num;
 				switch(C_num)
 				{
-					case 1:S_Information();break;
-					case 2:J_Information();break;
+					case 1:S_I_Control();break;
+					case 2:J_I_Control();break;
 					case 3:return 1;
 					case 0:exit(0);break;
 					default:cout<<"请输入正确的用户编号！"<<endl;break;
@@ -81,7 +103,7 @@ int S_User()
 		}
 	}
 }
-int J_Information()
+int J_I_Control()
 {
 	int J_num;
 	while(true)
@@ -110,7 +132,7 @@ int J_Information()
 		}
 	}
 }
-int S_Information()
+int S_I_Control()
 {
 	int S_num;
 	while(true)
@@ -134,4 +156,17 @@ int S_Information()
 			default:cout<<"请输入正确的用户编号！"<<endl;break;
 		}
 	}
+}
+void Add_S_Information()
+{
+
+}
+void View_S_Information()
+{
+}
+void Change_S_Information()
+{
+}
+void Delete_S_Information()
+{
 }
