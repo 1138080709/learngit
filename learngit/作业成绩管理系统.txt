@@ -190,14 +190,16 @@ void Add_S_Information(lklist head)
 		if(num!=0)
 			break;
 	}
-	rear->next=NULL;
+
+	rear->next=head;
+
 }
 void View_S_Information(lklist head)
 {
 	S_pointer p;
 	p=head->next;
 	cout<<"学号      姓名"<<endl;
-	while(p!=NULL)
+	while(p!=head)
 	{
 		cout<<p->S_no<<" "<<p->S_name<<endl;
 		p=p->next;
@@ -206,17 +208,28 @@ void View_S_Information(lklist head)
 lklist Change_S_Information(lklist head)
 {
 	S_pointer p,q;
-	int no,C_no,num;
+	int no,C_no,num,num1=0;
 	string C_name;
 	p=head->next;
 	q=head->next;
-	cout<<"请输入需要修改的学生学号"<<endl;
-	cin>>no;
-	while(p!=NULL)
+	while(true)
 	{
-		if(p->S_no==no)
-			cout<<p->S_no<<" "<<p->S_name<<endl;
+		cout<<"请输入需要修改的学生学号"<<endl;
+		cin>>no;
+		while(p!=head)
+		{
+			if(p->S_no==no)
+			{
+				cout<<p->S_no<<" "<<p->S_name<<endl;
+				num1=1;
+			}
+			p=p->next;
+		}
 		p=p->next;
+		if(num1==0)
+			cout<<"没有该学生信息，请确认后重新输入"<<endl;
+		else
+			break;
 	}
 	while(true)
 	{
@@ -228,7 +241,7 @@ lklist Change_S_Information(lklist head)
 		{
 			cout<<"请输入该学生的新学号"<<endl;
 			cin>>C_no;
-			while(q!=NULL)
+			while(q!=head)
 			{
 				if(q->S_no==no)
 				{
@@ -244,7 +257,7 @@ lklist Change_S_Information(lklist head)
 		{
 			cout<<"请输入该学生的新姓名"<<endl;
 			cin>>C_name;
-			while(q!=NULL)
+			while(q!=head)
 			{
 				if(q->S_no==no)
 				{
@@ -259,7 +272,7 @@ lklist Change_S_Information(lklist head)
 		else
 			cout<<"编号无效，请重试！"<<endl;
 	}
-	return q->next;
+	return q;
 }
 void Delete_S_Information()
 {
