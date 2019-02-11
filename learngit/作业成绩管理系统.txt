@@ -26,6 +26,7 @@ struct J_grade
 typedef S_pointer lklist;
 void Add_S_Information(lklist head);
 void View_S_Information(lklist head);
+lklist Change_S_Information(lklist head);
 lklist S_I_1=new S_Information;
 S_pointer rear;
 void main(){
@@ -160,7 +161,7 @@ int S_I_Control()
 				   else
 					   View_S_Information(S_I_1);
 					break;
-			case 3:break;
+			case 3:S_I_1=Change_S_Information(S_I_1);break;
 			case 4:break;
 			case 5:return 1;
 			case 0:exit(0);break;
@@ -202,9 +203,64 @@ void View_S_Information(lklist head)
 		p=p->next;
 	}
 }
-void Change_S_Information()
+lklist Change_S_Information(lklist head)
 {
+	S_pointer p,q;
+	int no,C_no,num;
+	string C_name;
+	p=head->next;
+	q=head->next;
+	cout<<"请输入需要修改的学生学号"<<endl;
+	cin>>no;
+	while(p!=NULL)
+	{
+		if(p->S_no==no)
+			cout<<p->S_no<<" "<<p->S_name<<endl;
+		p=p->next;
+	}
+	while(true)
+	{
+		cout<<"请选择你要修改的信息（输入数字编号）"<<endl;
+		cout<<"1、学号"<<endl;
+		cout<<"2、姓名"<<endl;
+		cin>>num;
+		if(num==1)
+		{
+			cout<<"请输入该学生的新学号"<<endl;
+			cin>>C_no;
+			while(q!=NULL)
+			{
+				if(q->S_no==no)
+				{
+					q->S_no=C_no;
+					cout<<"修改后的学生信息为："<<endl;
+					cout<<q->S_no<<" "<<q->S_name<<endl;
+				}
+				q=q->next;
+			}
+			break;
+		}
+		else if(num==2)
+		{
+			cout<<"请输入该学生的新姓名"<<endl;
+			cin>>C_name;
+			while(q!=NULL)
+			{
+				if(q->S_no==no)
+				{
+					q->S_name=C_name;
+					cout<<"修改后的学生信息为："<<endl;
+					cout<<q->S_no<<" "<<q->S_name<<endl;
+				}
+				q=q->next;
+			}
+			break;
+		}
+		else
+			cout<<"编号无效，请重试！"<<endl;
+	}
+	return q->next;
 }
 void Delete_S_Information()
 {
-}
+} 
