@@ -305,6 +305,7 @@ void Create_Job(lklist head)
 			rear1=s;
 			p=p->next;
 		}
+		p=p->next;
 		rear1->next=Jobs[Job_No].grade;
 		q=Jobs[Job_No].grade->next;
 		while(q!=Jobs[Job_No].grade)
