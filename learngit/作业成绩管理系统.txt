@@ -1,9 +1,11 @@
 #include<iostream>
 #include<string>
 using namespace std;
+const int maxsize=100;
 typedef struct S_Information* S_pointer;
-typedef struct J_Information* J_pointer;
+typedef struct J_Information J_pointer;
 typedef struct J_grade* G_pointer;
+typedef S_pointer lklist;
 struct S_Information
 {
 	int S_no;
@@ -15,7 +17,6 @@ struct J_Information
 	int J_no;
 	string J_content;
 	G_pointer grade; 
-	J_pointer next;
 };
 struct J_grade
 {
@@ -23,12 +24,14 @@ struct J_grade
 	int S_grade;
 	G_pointer next;
 };
-typedef S_pointer lklist;
 void Add_S_Information(lklist head);
 void View_S_Information(lklist head);
 lklist Change_S_Information(lklist head);
+void Create_Job(lklist head);
 lklist S_I_1=new S_Information;
+J_pointer Jobs[maxsize];
 S_pointer rear;
+int Job_No=0;
 void main(){
 	int C_num;
 	int T_User();
@@ -128,7 +131,7 @@ int J_I_Control()
 		cin>>J_num;
 		switch(J_num)
 		{
-			case 1:break;
+			case 1:Create_Job(S_I_1);break;
 			case 2:break;
 			case 3:break;
 			case 4:break;
@@ -274,6 +277,57 @@ lklist Change_S_Information(lklist head)
 	}
 	return q;
 }
-void Delete_S_Information()
+void Delete_S_Information(lklist head)
 {
+
 } 
+void Create_Job(lklist head)
+{
+	string Job_content;
+	S_pointer p;
+	G_pointer s,rear1,q;
+	int num;
+	p=head->next;
+	while(true)
+	{
+		cout<<"请输入作业内容："<<endl;
+		cin>>Job_content;
+		Jobs[Job_No].grade=new J_grade;
+		Jobs[Job_No].grade->next=NULL;
+		rear1=Jobs[Job_No].grade;
+		Jobs[Job_No].J_no=Job_No+1;
+		Jobs[Job_No].J_content=Job_content;
+		while(p!=head)
+		{
+			s=new J_grade;
+			s->S_no=p->S_no;
+			rear1->next=s;
+			rear1=s;
+			p=p->next;
+		}
+		rear1->next=Jobs[Job_No].grade;
+		q=Jobs[Job_No].grade->next;
+		while(q!=Jobs[Job_No].grade)
+		{
+			cout<<q->S_no<<"     "<<Jobs[Job_No].J_content<<endl;
+			q=q->next;
+		}
+		Job_No++;
+		cout<<"是否继续添加（输入0继续添加，输入任意健返回菜单）"<<endl;
+		cin>>num;
+		if(num!=0)
+			break;
+	}
+}
+void In_J_Grade()
+{
+
+}
+void Change_J_Grade()
+{
+
+}
+void View_J_Grade()
+{
+
+}
