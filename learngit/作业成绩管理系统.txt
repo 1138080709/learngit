@@ -28,6 +28,8 @@ void Add_S_Information(lklist head);
 void View_S_Information(lklist head);
 lklist Change_S_Information(lklist head);
 void Create_Job(lklist head);
+void View_Job();
+void Delete_Job();
 lklist S_I_1=new S_Information;
 J_pointer Jobs[maxsize];
 S_pointer rear;
@@ -120,24 +122,26 @@ int J_I_Control()
 	while(true)
 	{
 		cout<<"1、创建作业"<<endl;
-		cout<<"2、录入作业成绩"<<endl;
-		cout<<"3、修改作业成绩"<<endl;
-		cout<<"4、查看作业成绩"<<endl;
-		cout<<"5、统计作业"<<endl;
-		cout<<"6、删除作业"<<endl;
-		cout<<"7、返回"<<endl;
+		cout<<"2、查看作业"<<endl;
+		cout<<"3、删除作业"<<endl;
+		cout<<"4、登记成绩"<<endl;
+		cout<<"5、查询成绩"<<endl;
+		cout<<"6、更改成绩"<<endl;
+		cout<<"7、统计成绩"<<endl;
+		cout<<"8、返回"<<endl;
 		cout<<"0、退出"<<endl;
 		cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
 		cin>>J_num;
 		switch(J_num)
 		{
 			case 1:Create_Job(S_I_1);break;
-			case 2:break;
-			case 3:break;
+			case 2:View_Job();break;
+			case 3:Delete_Job();break;
 			case 4:break;
 			case 5:break;
 			case 6:break;
-			case 7:return 1;
+			case 7:break;
+			case 8:return 1;
 			case 0:exit(0);break;
 			default:cout<<"请输入正确的用户编号！"<<endl;break;
 		}
@@ -310,7 +314,7 @@ void Create_Job(lklist head)
 		q=Jobs[Job_No].grade->next;
 		while(q!=Jobs[Job_No].grade)
 		{
-			cout<<q->S_no<<"     "<<Jobs[Job_No].J_content<<endl;
+			cout<<Jobs[Job_No].J_no<<"     "<<q->S_no<<"     "<<Jobs[Job_No].J_content<<endl;
 			q=q->next;
 		}
 		Job_No++;
@@ -320,7 +324,48 @@ void Create_Job(lklist head)
 			break;
 	}
 }
-void In_J_Grade()
+void View_Job()
+{
+	cout<<"编号  作业内容"<<endl;
+	for(int i=0;i<Job_No;i++)
+	{
+		cout<<Jobs[i].J_no<<"  "<<Jobs[i].J_content<<endl;
+	}
+}
+void Delete_Job()
+{
+	G_pointer p,q;
+	int num;
+	while(true)
+	{
+		cout<<"请输入你想删除的作业编号："<<endl;
+		cin>>num;
+		if(num<1||num>Job_No+1)
+		{
+			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+		}
+		else break;
+	}
+	p=Jobs[num].grade->next;
+	while(p!=Jobs[num].grade)
+	{
+		q=p->next;
+		delete p;
+		p=q;
+	}
+	if(p==Jobs[num].grade)
+		cout<<"该次作业所有学生成绩删除成功"<<endl;
+	else
+		cout<<"该次作业所有学生成绩删除失败"<<endl;
+	for(int i=num-1;i<maxsize;i++)
+	{
+		Jobs[i+1].J_no=i+1;
+		Jobs[i]=Jobs[i+1];
+		
+	}
+	cout<<"作业删除完毕！"<<endl;
+}
+void Register_J_Grade()
 {
 
 }
