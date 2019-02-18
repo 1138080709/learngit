@@ -7,6 +7,7 @@ typedef struct S_Information* S_pointer;
 typedef struct J_Information J_pointer;
 typedef struct J_grade* G_pointer;
 typedef S_pointer lklist;
+typedef struct List list[maxsize+1];
 struct S_Information
 {
 	int S_no;
@@ -25,6 +26,11 @@ struct J_grade
 	int S_grade;
 	G_pointer next;
 };
+struct List
+{
+	int S_no;
+	int S_grade;
+};
 void Add_S_Information(lklist head);
 void View_S_Information(lklist head);
 lklist Change_S_Information(lklist head);
@@ -34,6 +40,12 @@ void Delete_Job();
 void Register_J_Grade();
 void View_J_Grade();
 void Change_J_Grade();
+void Count_Grade();
+int Job_average();
+void Job_DESC();
+void Job_ASC();
+void InsertSort1(list R,int n);
+void InsertSort2(list R,int n);
 lklist S_I_1=new S_Information;
 J_pointer Jobs[maxsize];
 S_pointer rear;
@@ -144,7 +156,7 @@ int J_I_Control()
 			case 4:Register_J_Grade();break;
 			case 5:View_J_Grade();break;
 			case 6:Change_J_Grade();break;
-			case 7:break;
+			case 7:Count_Grade();break;
 			case 8:return 1;
 			case 0:exit(0);break;
 			default:cout<<"请输入正确的用户编号！"<<endl;break;
@@ -458,5 +470,141 @@ void View_J_Grade()
 	{
 		cout<<p->S_no<<" "<<p->S_grade<<endl;
 		p=p->next;
+	}
+}
+void Count_Grade()
+{
+	int num,ave=0;
+	while(true)
+	{
+		cout<<"1、查询作业平均分"<<endl;
+		cout<<"2、作业降序"<<endl;
+		cout<<"3、作业升序"<<endl;
+		cout<<"4、返回"<<endl;
+		cout<<"5、退出"<<endl;
+		cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
+		cin>>num;
+		switch(num)
+		{
+			case 1:ave=Job_average();
+				   cout<<"该次作业的平均分为："<<ave<<endl;
+				   break;
+			case 2:Job_DESC();break;
+			case 3:Job_ASC();break;
+			case 4:return;
+			case 5:exit(0);break;
+			default:cout<<"请输入正确的用户编号！"<<endl;break;
+		}
+	}
+}
+int Job_average()
+{
+	int num,count=0,num1=0;
+	G_pointer p;
+	while(true)
+	{
+		cout<<"请输入你要查询的作业编号"<<endl;
+		cin>>num;
+		if(num<1||num>Job_No+1)
+			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+		else break;
+	}
+	p=Jobs[num-1].grade->next;
+	while(p!=Jobs[num-1].grade)
+	{
+		count+=p->S_grade;
+		num1++;
+		p=p->next;
+	}
+	return	count/num1;
+}
+void Job_DESC()
+{
+	int num,x=1;
+	G_pointer p;
+	list R;
+	while(true)
+	{
+		cout<<"请输入你要查询的作业编号"<<endl;
+		cin>>num;
+		if(num<1||num>Job_No+1)
+			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+		else break;
+	}
+	p=Jobs[num-1].grade->next;
+	while(p!=Jobs[num-1].grade)
+	{
+		R[x].S_no=p->S_no;
+		R[x].S_grade=p->S_grade;
+		x++;
+		p=p->next;
+	}
+	InsertSort1(R,x);
+	cout<<"学号  成绩"<<endl;
+	for(int n=1;n<x;n++)
+	{
+		cout<<R[n].S_no<<"  "<<R[n].S_grade<<endl;
+	}
+
+}
+void Job_ASC()
+{
+	int num,x=1;
+	G_pointer p;
+	list R;
+	while(true)
+	{
+		cout<<"请输入你要查询的作业编号"<<endl;
+		cin>>num;
+		if(num<1||num>Job_No+1)
+			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+		else break;
+	}
+	p=Jobs[num-1].grade->next;
+	while(p!=Jobs[num-1].grade)
+	{
+		R[x].S_no=p->S_no;
+		R[x].S_grade=p->S_grade;
+		x++;
+		p=p->next;
+	}
+	InsertSort2(R,x);
+	cout<<"学号  成绩"<<endl;
+	for(int n=1;n<x;n++)
+	{
+		cout<<R[n].S_no<<"  "<<R[n].S_grade<<endl;
+	}
+
+}
+void InsertSort1(list R,int n)
+{
+	int i,j;
+	for(i=2;i<n;i++)
+	{
+		if(R[i].S_grade<R[i-1].S_grade)
+			continue;
+		R[0]=R[i];
+		j=i-1;
+		do{
+			R[j+1]=R[j];
+			j--;
+		}while(R[0].S_grade>=R[j].S_grade);
+		R[j+1]=R[0];
+	}
+}
+void InsertSort2(list R,int n)
+{
+	int i,j;
+	for(i=2;i<n;i++)
+	{
+		if(R[i].S_grade>=R[i-1].S_grade)
+			continue;
+		R[0]=R[i];
+		j=i-1;
+		do{
+			R[j+1]=R[j];
+			j--;
+		}while(R[0].S_grade<R[j].S_grade);
+		R[j+1]=R[0];
 	}
 }
