@@ -31,6 +31,8 @@ struct List
 	int S_no;
 	int S_grade;
 };
+int T_User();
+int S_User(lklist head);
 void Add_S_Information(lklist head);
 void View_S_Information(lklist head);
 lklist Change_S_Information(lklist head);
@@ -46,14 +48,15 @@ void Job_DESC();
 void Job_ASC();
 void InsertSort1(list R,int n);
 void InsertSort2(list R,int n);
+void Look_S_A_grade(int no);
+void View_S_grade(int no);
+void Register_S_grade(int no);
 lklist S_I_1=new S_Information;
 J_pointer Jobs[maxsize];
 S_pointer rear;
 int Job_No=0;
 void main(){
 	int C_num;
-	int T_User();
-	int S_User();
 	S_I_1->next=NULL;
 	rear=S_I_1;
 	while(true)
@@ -67,7 +70,7 @@ void main(){
 		switch(C_num)
 		{
 			case 1:T_User();break;
-			case 2:S_User();break;
+			case 2:S_User(S_I_1);break;
 			case 0:exit(0);break;
 			default:cout<<"请输入正确的用户编号！"<<endl;break;	
 		}
@@ -108,27 +111,52 @@ int T_User()
 			cout<<"密码错误，请重试！！！"<<endl;
 	}
 }
-int S_User()
+int S_User(lklist head)
 {
-	cout<<"欢迎进入学生频道！！！"<<endl;
-	int C_num;
-	while(true)
+	int no,flag=0;
+	S_pointer p;
+	if(head->next==NULL)
+		cout<<"老师还未添加学生信息!"<<endl;
+	else
 	{
-		cout<<"1、查看所有作业成绩"<<endl;
-		cout<<"2、查找作业成绩"<<endl;
-		cout<<"3、统计作业成绩"<<endl;
-		cout<<"4、返回"<<endl;
-		cout<<"0、退出"<<endl;
-		cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
-		cin>>C_num;
-		switch(C_num)
+		p=head->next;
+		while(true)
 		{
-			case 1:break;
-			case 2:break;
-			case 3:break;
-			case 4:return 1;
-			case 0:exit(0);break;
-			default:cout<<"请输入正确的用户编号！"<<endl;break;
+			cout<<"请输入你的学号"<<endl;
+			cin>>no;
+			while(p!=head)
+			{
+				if(p->S_no==no)
+				{
+					flag=1;
+				}
+				p=p->next;
+			}
+			if(flag==1)
+				break;
+			else
+				cout<<"查无此学生，请确认后重新输入！"<<endl;
+		}
+		cout<<"欢迎进入学生频道！！！"<<endl;
+		int C_num;
+		while(true)
+		{
+			cout<<"1、查看所有作业成绩"<<endl;
+			cout<<"2、查找作业成绩"<<endl;
+			cout<<"3、统计作业成绩"<<endl;
+			cout<<"4、返回"<<endl;
+			cout<<"0、退出"<<endl;
+			cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
+			cin>>C_num;
+			switch(C_num)
+			{
+				case 1:Look_S_A_grade(no);break;
+				case 2:View_S_grade(no);break;
+				case 3:Register_S_grade(no);break;
+				case 4:return 1;
+				case 0:exit(0);break;
+				default:cout<<"请输入正确的用户编号！"<<endl;break;
+			}
 		}
 	}
 }
@@ -220,12 +248,17 @@ void Add_S_Information(lklist head)
 void View_S_Information(lklist head)
 {
 	S_pointer p;
-	p=head->next;
-	cout<<"学号      姓名"<<endl;
-	while(p!=head)
+	if(head->next==NULL)
+		cout<<"暂无学生信息"<<endl;
+	else
 	{
-		cout<<p->S_no<<" "<<p->S_name<<endl;
-		p=p->next;
+		p=head->next;
+		cout<<"学号      姓名"<<endl;
+		while(p!=head)
+		{
+			cout<<p->S_no<<" "<<p->S_name<<endl;
+			p=p->next;
+		}
 	}
 }
 lklist Change_S_Information(lklist head)
@@ -233,69 +266,74 @@ lklist Change_S_Information(lklist head)
 	S_pointer p,q;
 	int no,C_no,num,num1=0;
 	string C_name;
-	p=head->next;
-	q=head->next;
-	while(true)
+	if(head->next==NULL)
+		cout<<"暂无学生信息"<<endl;
+	else
 	{
-		cout<<"请输入需要修改的学生学号"<<endl;
-		cin>>no;
-		while(p!=head)
+		p=head->next;
+		q=head->next;
+		while(true)
 		{
-			if(p->S_no==no)
+			cout<<"请输入需要修改的学生学号"<<endl;
+			cin>>no;
+			while(p!=head)
 			{
-				cout<<p->S_no<<" "<<p->S_name<<endl;
-				num1=1;
+				if(p->S_no==no)
+				{
+					cout<<p->S_no<<" "<<p->S_name<<endl;
+					num1=1;
+				}
+				p=p->next;
 			}
 			p=p->next;
+			if(num1==0)
+				cout<<"没有该学生信息，请确认后重新输入"<<endl;
+			else
+				break;
 		}
-		p=p->next;
-		if(num1==0)
-			cout<<"没有该学生信息，请确认后重新输入"<<endl;
-		else
-			break;
-	}
-	while(true)
-	{
-		cout<<"请选择你要修改的信息（输入数字编号）"<<endl;
-		cout<<"1、学号"<<endl;
-		cout<<"2、姓名"<<endl;
-		cin>>num;
-		if(num==1)
+		while(true)
 		{
-			cout<<"请输入该学生的新学号"<<endl;
-			cin>>C_no;
-			while(q!=head)
+			cout<<"请选择你要修改的信息（输入数字编号）"<<endl;
+			cout<<"1、学号"<<endl;
+			cout<<"2、姓名"<<endl;
+			cin>>num;
+			if(num==1)
 			{
-				if(q->S_no==no)
+				cout<<"请输入该学生的新学号"<<endl;
+				cin>>C_no;
+				while(q!=head)
 				{
-					q->S_no=C_no;
-					cout<<"修改后的学生信息为："<<endl;
-					cout<<q->S_no<<" "<<q->S_name<<endl;
+					if(q->S_no==no)
+					{
+						q->S_no=C_no;
+						cout<<"修改后的学生信息为："<<endl;
+						cout<<q->S_no<<" "<<q->S_name<<endl;
+					}
+					q=q->next;
 				}
-				q=q->next;
+				break;
 			}
-			break;
-		}
-		else if(num==2)
-		{
-			cout<<"请输入该学生的新姓名"<<endl;
-			cin>>C_name;
-			while(q!=head)
+			else if(num==2)
 			{
-				if(q->S_no==no)
+				cout<<"请输入该学生的新姓名"<<endl;
+				cin>>C_name;
+				while(q!=head)
 				{
-					q->S_name=C_name;
-					cout<<"修改后的学生信息为："<<endl;
-					cout<<q->S_no<<" "<<q->S_name<<endl;
+					if(q->S_no==no)
+					{
+						q->S_name=C_name;
+						cout<<"修改后的学生信息为："<<endl;
+						cout<<q->S_no<<" "<<q->S_name<<endl;
+					}
+					q=q->next;
 				}
-				q=q->next;
+				break;
 			}
-			break;
+			else
+				cout<<"编号无效，请重试！"<<endl;
 		}
-		else
-			cout<<"编号无效，请重试！"<<endl;
+		return q;
 	}
-	return q;
 }
 void Delete_S_Information(lklist head)
 {
@@ -342,158 +380,187 @@ void Create_Job(lklist head)
 }
 void View_Job()
 {
-	cout<<"编号  作业内容"<<endl;
-	for(int i=0;i<Job_No;i++)
+	if(Job_No==0)
+		cout<<"暂无作业信息"<<endl;
+	else
 	{
-		cout<<Jobs[i].J_no<<"  "<<Jobs[i].J_content<<endl;
+		cout<<"编号  作业内容"<<endl;
+		for(int i=0;i<Job_No;i++)
+		{
+			cout<<Jobs[i].J_no<<"  "<<Jobs[i].J_content<<endl;
+		}
 	}
 }
 void Delete_Job()
 {
 	G_pointer p,q;
 	int num;
-	while(true)
-	{
-		cout<<"请输入你想删除的作业编号："<<endl;
-		cin>>num;
-		if(num<1||num>Job_No+1)
-		{
-			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
-		}
-		else break;
-	}
-	p=Jobs[num].grade->next;
-	while(p!=Jobs[num].grade)
-	{
-		q=p->next;
-		delete p;
-		p=q;
-	}
-	if(p==Jobs[num].grade)
-		cout<<"该次作业所有学生成绩删除成功"<<endl;
+	if(Job_No==0)
+		cout<<"暂无作业信息"<<endl;
 	else
-		cout<<"该次作业所有学生成绩删除失败"<<endl;
-	for(int i=num-1;i<maxsize;i++)
 	{
-		Jobs[i+1].J_no=i+1;
-		Jobs[i]=Jobs[i+1];
-		
+		while(true)
+		{
+			cout<<"请输入你想删除的作业编号："<<endl;
+			cin>>num;
+			if(num<1||num>Job_No+1)
+			{
+				cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+			}
+			else break;
+		}
+		p=Jobs[num].grade->next;
+		while(p!=Jobs[num].grade)
+		{
+			q=p->next;
+			delete p;
+			p=q;
+		}
+		if(p==Jobs[num].grade)
+			cout<<"该次作业所有学生成绩删除成功"<<endl;
+		else
+			cout<<"该次作业所有学生成绩删除失败"<<endl;
+		for(int i=num-1;i<maxsize;i++)
+		{
+			Jobs[i+1].J_no=i+1;
+			Jobs[i]=Jobs[i+1];	
+		}
+		cout<<"作业删除完毕！"<<endl;
 	}
-	cout<<"作业删除完毕！"<<endl;
 }
 void Register_J_Grade()
 {
 	G_pointer p;
 	int num,grade;
-	while(true)
+	if(Job_No==0)
+		cout<<"暂无作业信息"<<endl;
+	else
 	{
-		cout<<"请输入作业编号："<<endl;
-		cin>>num;
-		if(num<1||num>Job_No+1)
+		while(true)
 		{
-			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+			cout<<"请输入作业编号："<<endl;
+			cin>>num;
+			if(num<1||num>Job_No+1)
+			{
+				cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+			}
+			else break;
 		}
-		else break;
-	}
-	p=Jobs[num-1].grade->next;
-	while(p!=Jobs[num-1].grade)
-	{
-		cout<<"请输入"<<p->S_no<<"同学本次作业成绩："<<endl;
-		cin>>grade;
-		p->S_grade=grade;
+		p=Jobs[num-1].grade->next;
+		while(p!=Jobs[num-1].grade)
+		{
+			cout<<"请输入"<<p->S_no<<"同学本次作业成绩："<<endl;
+			cin>>grade;
+			p->S_grade=grade;
+			p=p->next;
+		}
+		cout<<"所有学生成绩输入完毕！"<<endl;
 		p=p->next;
-	}
-	cout<<"所有学生成绩输入完毕！"<<endl;
-	p=p->next;
-	while(p!=Jobs[num-1].grade)
-	{
-		cout<<p->S_no<<" "<<p->S_grade<<endl;
-		p=p->next;
+		while(p!=Jobs[num-1].grade)
+		{
+			cout<<p->S_no<<" "<<p->S_grade<<endl;
+			p=p->next;
+		}
 	}
 }
 void Change_J_Grade()
 {
 	int num,no,grade,flag=0;
 	G_pointer p;
-	while(true)
+	if(Job_No==0)
+		cout<<"暂无作业信息"<<endl;
+	else
 	{
-		cout<<"请输入你要修改的成绩的该次作业编号"<<endl;
-		cin>>num;
-		if(num<1||num>Job_No+1)
+		while(true)
 		{
-			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
-		}
-		else break;
-	}
-	p=Jobs[num-1].grade->next;
-	while(true)
-	{
-		cout<<"请输入你要修改的学生的学号"<<endl;
-		cin>>no;
-		while(p!=Jobs[num-1].grade)
-		{
-			if(p->S_no==no)
+			cout<<"请输入你要修改的成绩的该次作业编号"<<endl;
+			cin>>num;
+			if(num<1||num>Job_No+1)
 			{
-				cout<<p->S_no<<" "<<p->S_grade<<endl;
-				cout<<"请输入新成绩："<<endl;
-				cin>>grade;
-				p->S_grade=grade;
-				flag=1;
-				break;
+				cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
 			}
-			else
-				p=p->next;
+			else break;
 		}
-		if(flag==1)
-			break;
-		else
-			cout<<"查无此学生，请确认后重新输入！"<<endl;
+		p=Jobs[num-1].grade->next;
+		while(true)
+		{
+			cout<<"请输入你要修改的学生的学号"<<endl;
+			cin>>no;
+			while(p!=Jobs[num-1].grade)
+			{
+				if(p->S_no==no)
+				{
+					cout<<p->S_no<<" "<<p->S_grade<<endl;
+					cout<<"请输入新成绩："<<endl;
+					cin>>grade;
+					p->S_grade=grade;
+					flag=1;
+					break;
+				}
+				else
+					p=p->next;
+			}	
+			if(flag==1)
+				break;
+			else
+				cout<<"查无此学生，请确认后重新输入！"<<endl;
+		}
 	}
 }
 void View_J_Grade()
 {
 	int num;
 	G_pointer p;
-	while(true)
+	if(Job_No==0)
+		cout<<"暂无作业信息"<<endl;
+	else
 	{
-		cout<<"请输入你要查询该次作业的作业编号"<<endl;
-		cin>>num;
-		if(num<1||num>Job_No+1)
+		while(true)
 		{
-			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+			cout<<"请输入你要查询该次作业的作业编号"<<endl;
+			cin>>num;
+			if(num<1||num>Job_No+1)
+			{
+				cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+			}
+			else break;
 		}
-		else break;
-	}
-	p=Jobs[num-1].grade->next;
-	cout<<"学号  成绩"<<endl;
-	while(p!=Jobs[num-1].grade)
-	{
-		cout<<p->S_no<<" "<<p->S_grade<<endl;
-		p=p->next;
+		p=Jobs[num-1].grade->next;
+		cout<<"学号  成绩"<<endl;
+		while(p!=Jobs[num-1].grade)
+		{
+			cout<<p->S_no<<" "<<p->S_grade<<endl;
+			p=p->next;
+		}
 	}
 }
 void Count_Grade()
 {
 	int num,ave=0;
-	while(true)
+	if(Job_No==0)
+		cout<<"暂无作业信息"<<endl;
+	else
 	{
-		cout<<"1、查询作业平均分"<<endl;
-		cout<<"2、作业降序"<<endl;
-		cout<<"3、作业升序"<<endl;
-		cout<<"4、返回"<<endl;
-		cout<<"5、退出"<<endl;
-		cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
-		cin>>num;
-		switch(num)
+		while(true)
 		{
-			case 1:ave=Job_average();
-				   cout<<"该次作业的平均分为："<<ave<<endl;
-				   break;
-			case 2:Job_DESC();break;
-			case 3:Job_ASC();break;
-			case 4:return;
-			case 5:exit(0);break;
-			default:cout<<"请输入正确的用户编号！"<<endl;break;
+			cout<<"1、查询作业平均分"<<endl;
+			cout<<"2、作业降序"<<endl;
+			cout<<"3、作业升序"<<endl;
+			cout<<"4、返回"<<endl;
+			cout<<"5、退出"<<endl;
+			cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
+			cin>>num;
+			switch(num)
+			{
+				case 1:ave=Job_average();
+					   cout<<"该次作业的平均分为："<<ave<<endl;
+					   break;
+				case 2:Job_DESC();break;
+				case 3:Job_ASC();break;
+				case 4:return;
+				case 5:exit(0);break;
+				default:cout<<"请输入正确的用户编号！"<<endl;break;
+			}
 		}
 	}
 }
@@ -606,5 +673,94 @@ void InsertSort2(list R,int n)
 			j--;
 		}while(R[0].S_grade<R[j].S_grade);
 		R[j+1]=R[0];
+	}
+}
+void Look_S_A_grade(int no)
+{
+	int flag=0;
+	G_pointer p;
+	if(Job_No==0)
+		cout<<"暂无作业信息"<<endl;
+	else
+	{
+		cout<<"作业编号  成绩"<<endl;
+		for(int i=0;i<Job_No;i++)
+		{
+			p=Jobs[i].grade->next;
+			while(p!=Jobs[i].grade)
+			{
+				if(p->S_no==no&&p->S_grade>=0)
+				{
+					cout<<Jobs[i].J_no<<"          "<<p->S_grade<<endl;
+					flag=1;
+					break;
+				}
+				p=p->next;
+			}
+			if(flag==0)
+				cout<<"暂无作业成绩"<<endl;
+		}
+	}
+}
+void View_S_grade(int no)
+{
+	int num,flag=0;
+	G_pointer p;
+	if(Job_No==0)
+		cout<<"暂无作业信息"<<endl;
+	else
+	{
+		while(true)
+		{
+			cout<<"请输入你要查询的作业编号"<<endl;
+			cin>>num;
+			if(num<1||num>Job_No+1)
+				cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+			else break;
+		}
+		p=Jobs[num-1].grade->next;
+		while(p!=Jobs[num-1].grade)
+		{
+			if(p->S_no==no&p->S_grade>=0)
+			{
+				cout<<"该此作业的成绩为："<<p->S_grade<<endl;
+				flag=1;
+				break;
+			}
+			p=p->next;
+			if(flag==0)
+				cout<<"暂无该科成绩"<<endl;
+		}
+	}
+}
+void Register_S_grade(int no)
+{
+	int flag=0,count=0,num=0,ave=0;
+	G_pointer p;
+	if(Job_No==0)
+		cout<<"暂无作业信息"<<endl;
+	else
+	{
+		cout<<"作业编号  成绩"<<endl;
+		for(int i=0;i<Job_No;i++)
+		{
+			p=Jobs[i].grade->next;
+			while(p!=Jobs[i].grade)
+			{
+				if(p->S_no==no&&p->S_grade>=0)
+				{
+					count+=p->S_grade;
+					num++;
+					flag=1;
+					break;
+				}
+				p=p->next;
+			}
+			if(flag==0)
+				cout<<"暂无作业成绩"<<endl;
+		}
+		ave=count/num;
+		cout<<"作业总分："<<count<<endl;
+		cout<<"作业平均分："<<ave<<endl;
 	}
 }
