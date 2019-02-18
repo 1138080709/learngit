@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<fstream>
 using namespace std;
 const int maxsize=100;
 typedef struct S_Information* S_pointer;
@@ -32,6 +33,7 @@ void View_Job();
 void Delete_Job();
 void Register_J_Grade();
 void View_J_Grade();
+void Change_J_Grade();
 lklist S_I_1=new S_Information;
 J_pointer Jobs[maxsize];
 S_pointer rear;
@@ -141,7 +143,7 @@ int J_I_Control()
 			case 3:Delete_Job();break;
 			case 4:Register_J_Grade();break;
 			case 5:View_J_Grade();break;
-			case 6:break;
+			case 6:Change_J_Grade();break;
 			case 7:break;
 			case 8:return 1;
 			case 0:exit(0);break;
@@ -399,7 +401,42 @@ void Register_J_Grade()
 }
 void Change_J_Grade()
 {
-
+	int num,no,grade,flag=0;
+	G_pointer p;
+	while(true)
+	{
+		cout<<"请输入你要修改的成绩的该次作业编号"<<endl;
+		cin>>num;
+		if(num<1||num>Job_No+1)
+		{
+			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+		}
+		else break;
+	}
+	p=Jobs[num-1].grade->next;
+	while(true)
+	{
+		cout<<"请输入你要修改的学生的学号"<<endl;
+		cin>>no;
+		while(p!=Jobs[num-1].grade)
+		{
+			if(p->S_no==no)
+			{
+				cout<<p->S_no<<" "<<p->S_grade<<endl;
+				cout<<"请输入新成绩："<<endl;
+				cin>>grade;
+				p->S_grade=grade;
+				flag=1;
+				break;
+			}
+			else
+				p=p->next;
+		}
+		if(flag==1)
+			break;
+		else
+			cout<<"查无此学生，请确认后重新输入！"<<endl;
+	}
 }
 void View_J_Grade()
 {
