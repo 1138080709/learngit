@@ -30,6 +30,8 @@ lklist Change_S_Information(lklist head);
 void Create_Job(lklist head);
 void View_Job();
 void Delete_Job();
+void Register_J_Grade();
+void View_J_Grade();
 lklist S_I_1=new S_Information;
 J_pointer Jobs[maxsize];
 S_pointer rear;
@@ -137,8 +139,8 @@ int J_I_Control()
 			case 1:Create_Job(S_I_1);break;
 			case 2:View_Job();break;
 			case 3:Delete_Job();break;
-			case 4:break;
-			case 5:break;
+			case 4:Register_J_Grade();break;
+			case 5:View_J_Grade();break;
 			case 6:break;
 			case 7:break;
 			case 8:return 1;
@@ -367,7 +369,33 @@ void Delete_Job()
 }
 void Register_J_Grade()
 {
-
+	G_pointer p;
+	int num,grade;
+	while(true)
+	{
+		cout<<"请输入作业编号："<<endl;
+		cin>>num;
+		if(num<1||num>Job_No+1)
+		{
+			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+		}
+		else break;
+	}
+	p=Jobs[num-1].grade->next;
+	while(p!=Jobs[num-1].grade)
+	{
+		cout<<"请输入"<<p->S_no<<"同学本次作业成绩："<<endl;
+		cin>>grade;
+		p->S_grade=grade;
+		p=p->next;
+	}
+	cout<<"所有学生成绩输入完毕！"<<endl;
+	p=p->next;
+	while(p!=Jobs[num-1].grade)
+	{
+		cout<<p->S_no<<" "<<p->S_grade<<endl;
+		p=p->next;
+	}
 }
 void Change_J_Grade()
 {
@@ -375,5 +403,23 @@ void Change_J_Grade()
 }
 void View_J_Grade()
 {
-
+	int num;
+	G_pointer p;
+	while(true)
+	{
+		cout<<"请输入你要查询该次作业的作业编号"<<endl;
+		cin>>num;
+		if(num<1||num>Job_No+1)
+		{
+			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
+		}
+		else break;
+	}
+	p=Jobs[num-1].grade->next;
+	cout<<"学号  成绩"<<endl;
+	while(p!=Jobs[num-1].grade)
+	{
+		cout<<p->S_no<<" "<<p->S_grade<<endl;
+		p=p->next;
+	}
 }
