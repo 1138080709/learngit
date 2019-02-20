@@ -40,7 +40,10 @@ void Create_Job(lklist head);
 void View_Job();
 void Delete_Job();
 void Register_J_Grade();
+void Look_Grade();
 void View_J_Grade();
+void View_A_Grade();
+void View_NG_Student();
 void Change_J_Grade();
 void Count_Grade();
 int Job_average();
@@ -195,7 +198,7 @@ int J_I_Control()
 			case 4:Register_J_Grade();
 				   Out_J_Link();
 				   break;
-			case 5:View_J_Grade();break;
+			case 5:Look_Grade();break;
 			case 6:Change_J_Grade();
 				   Out_J_Link();
 				   break;
@@ -525,6 +528,31 @@ void Change_J_Grade()
 		}
 	}
 }
+void Look_Grade()
+{
+	int num;
+	while(true)
+		{
+			cout<<"1、查询个人成绩"<<endl;
+			cout<<"2、查询所有成绩"<<endl;
+			cout<<"3、查询没有成绩的学生"<<endl;
+			cout<<"4、返回"<<endl;
+			cout<<"5、退出"<<endl;
+			cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
+			cin>>num;
+			switch(num)
+			{
+				case 1:View_J_Grade();
+					   break;
+				case 2:View_A_Grade();
+					   break;
+				case 3:View_NG_Student();break;
+				case 4:return;
+				case 5:exit(0);break;
+				default:cout<<"请输入正确的用户编号！"<<endl;break;
+			}
+		}
+}
 void View_J_Grade()
 {
 	int num;
@@ -551,6 +579,41 @@ void View_J_Grade()
 			p=p->next;
 		}
 	}
+}
+void View_A_Grade()
+{
+	int i;
+	G_pointer p;
+	for(i=0;i<Job_No;i++)
+	{
+		cout<<Jobs[i].J_no<<" "<<Jobs[i].J_content<<endl;
+		p=Jobs[i].grade->next;
+		while(p!=Jobs[i].grade)
+		{
+			cout<<"  "<<p->S_no<<" "<<p->S_grade<<endl;
+			p=p->next;
+		}
+	}
+}
+void View_NG_Student()
+{
+	int i,flag=0;
+	G_pointer p;
+	for(i=0;i<Job_No;i++)
+	{
+		p=Jobs[i].grade->next;
+		while(p!=Jobs[i].grade)
+		{
+			if(p->S_grade<0)
+			{
+				cout<<" "<<Jobs[i].J_no<<" "<<Jobs[i].J_content<<" "<<p->S_no<<endl;
+				flag=1;
+			}
+			p=p->next;
+		}
+	}
+	if(flag==0)
+		cout<<"暂无没有成绩的学生"<<endl;
 }
 void Count_Grade()
 {
