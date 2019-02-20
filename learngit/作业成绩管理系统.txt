@@ -58,7 +58,7 @@ void In_J_Link();
 lklist S_I_1=new S_Information;
 J_pointer Jobs[maxsize];
 S_pointer rear;
-int Job_No=0;
+int Job_No=0,Student_No=0;
 string Jobs_file[maxsize];
 void main(){
 	int C_num;
@@ -253,6 +253,7 @@ void Add_S_Information(lklist head)
 		s->S_name=name;	
 		rear->next=s;
 		rear=s;
+		Student_No++;
 		cout<<"是否继续添加（输入0继续添加，输入任意健返回菜单）"<<endl;
 		cin>>num;
 		if(num!=0)
@@ -420,7 +421,7 @@ void Delete_Job()
 		{
 			cout<<"请输入你想删除的作业编号："<<endl;
 			cin>>num;
-			if(num<1||num>Job_No+1)
+			if(num<1||num>Job_No)
 			{
 				cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
 			}
@@ -457,7 +458,7 @@ void Register_J_Grade()
 		{
 			cout<<"请输入作业编号："<<endl;
 			cin>>num;
-			if(num<1||num>Job_No+1)
+			if(num<1||num>Job_No)
 			{
 				cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
 			}
@@ -492,7 +493,7 @@ void Change_J_Grade()
 		{
 			cout<<"请输入你要修改的成绩的该次作业编号"<<endl;
 			cin>>num;
-			if(num<1||num>Job_No+1)
+			if(num<1||num>Job_No)
 			{
 				cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
 			}
@@ -536,7 +537,7 @@ void View_J_Grade()
 		{
 			cout<<"请输入你要查询该次作业的作业编号"<<endl;
 			cin>>num;
-			if(num<1||num>Job_No+1)
+			if(num<1||num>Job_No)
 			{
 				cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
 			}
@@ -589,7 +590,7 @@ int Job_average()
 	{
 		cout<<"请输入你要查询的作业编号"<<endl;
 		cin>>num;
-		if(num<1||num>Job_No+1)
+		if(num<1||num>Job_No)
 			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
 		else break;
 	}
@@ -611,7 +612,7 @@ void Job_DESC()
 	{
 		cout<<"请输入你要查询的作业编号"<<endl;
 		cin>>num;
-		if(num<1||num>Job_No+1)
+		if(num<1||num>Job_No)
 			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
 		else break;
 	}
@@ -640,7 +641,7 @@ void Job_ASC()
 	{
 		cout<<"请输入你要查询的作业编号"<<endl;
 		cin>>num;
-		if(num<1||num>Job_No+1)
+		if(num<1||num>Job_No)
 			cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
 		else break;
 	}
@@ -731,7 +732,7 @@ void View_S_grade(int no)
 		{
 			cout<<"请输入你要查询的作业编号"<<endl;
 			cin>>num;
-			if(num<1||num>Job_No+1)
+			if(num<1||num>Job_No)
 				cout<<"查不到该次作业，请确认编号后重新输入！"<<endl;
 			else break;
 		}
@@ -793,6 +794,7 @@ void Out_S_Link(lklist head)
 	}
 	else
 	{
+		fout<<Student_No<<endl;
 		while(p!=head)
 		{
 			fout<<p->S_no<<" "<<p->S_name<<endl;
@@ -814,7 +816,8 @@ void In_S_Link(lklist head)
 	}
 	else
 	{
-		while(!fin.eof())
+		fin>>Student_No;
+		for(int i=0;i<Student_No;i++)
 		{
 			fin>>no>>name;
 			s=new S_Information;
@@ -822,7 +825,6 @@ void In_S_Link(lklist head)
 			s->S_name=name;	
 			rear->next=s;
 			rear=s;
-			fin.get();//获取之后一个字符	
 		}
 		rear->next=head;
 		cout<<"学生信息读取成功！"<<endl;
@@ -863,7 +865,7 @@ void Out_J_Link()
 }
 void In_J_Link()
 {
-	int no,i,grade,J_no;
+	int no,i,n,grade,J_no;
 	string J_content;
 	G_pointer s,rear1;
 	ifstream file("D:\\作业管理系统文件\\filename.txt");
@@ -884,7 +886,7 @@ void In_J_Link()
 			Jobs[i].grade=new J_grade;
 			Jobs[i].grade->next=NULL;
 			rear1=Jobs[i].grade;
-			while(!fin.eof())
+			for(n=0;n<Student_No;n++)
 			{
 				fin>>no>>grade;
 				s=new J_grade;
@@ -892,11 +894,11 @@ void In_J_Link()
 				s->S_grade=grade;
 				rear1->next=s;
 				rear1=s;
-				fin.get();//获取之后一个字符
 			}
 			fin.close();
 			rear1->next=Jobs[i].grade;
 		}
+		
 		cout<<"作业信息读取成功！"<<endl;
 		file.close();
 	}
