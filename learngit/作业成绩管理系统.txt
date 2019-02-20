@@ -832,32 +832,28 @@ void Out_J_Link()
 {
 	int i;
 	G_pointer p;
-	ofstream file1;
-	ofstream file2;
-	if(!file1||!file2)
+	ofstream foud("d:\\code1.txt");
+	if(!foud)
 	{
 		cout<<"作业信息文件无法打开！"<<endl;
 		return;
 	}
 	else
 	{
-		file1.open("d:\\code1.txt");
-		file2.open("d:\\code2.txt");
 		for(i=0;i<Job_No;i++)
 		{
+			foud<<Jobs[i].J_no<<" "<<Jobs[i].J_content<<" ";
 			p=Jobs[i].grade->next;
-			file1<<Jobs[i].J_no<<" "<<Jobs[i].J_content<<endl;
-			file2<<p->S_no<<" ";
 			while(p!=Jobs[i].grade)
 			{
-				file2<<p->S_grade<<" ";
+				foud<<p->S_no<<" "<<p->S_grade<<" ";
 				p=p->next;
 			}
-			file2<<endl;
+			foud<<endl;
 		}
 		cout<<"成功写入文件！"<<endl;
-		file1.close();
-		file2.close();
+		foud.close();
+
 	}
 }
 void In_J_Link()
@@ -865,44 +861,41 @@ void In_J_Link()
 	int no,i,grade,J_no;
 	string J_content;
 	G_pointer s,rear1;
-	ifstream file3;
-	ifstream file4;
-	if(!file3||!file4)
+	ifstream fin("d:\\code1.txt");
+	if(!fin)
 	{
-		cout<<"学生信息文件出错，无法读取信息！"<<endl;
+		cout<<"作业信息文件出错，无法读取信息！"<<endl;
 	}
 	else
 	{
-		file3.open("d:\\code1.txt");
-		file4.open("d:\\code2.txt");
-		for(i=0;;i++)
+		for(i=0;!fin.eof();i++)
 		{
 			cout<<"1"<<endl;
-			file3>>J_no>>J_content;
+			fin>>J_no>>J_content;
+			cout<<"2"<<endl;
 			Jobs[i].J_no=J_no;
 			Jobs[i].J_content=J_content;
 			Job_No++;
 			Jobs[i].grade=new J_grade;
 			Jobs[i].grade->next=NULL;
 			rear1=Jobs[i].grade;
-			while(!file4.eof())
+			while(true)
 			{
-				file4>>no>>grade;
+				cout<<"3"<<endl;
+				if(no<0||grade<0)
+					break;
+				fin>>no>>grade;
+				cout<<"4"<<endl;
 				s=new J_grade;
 				s->S_no=no;
 				s->S_grade=grade;
 				rear1->next=s;
 				rear1=s;
-				file4.get();//获取之后一个字符	
 			}
+			fin.get();//获取之后一个字符	
 			rear1->next=Jobs[i].grade;
-			if(file3.eof())
-				break;
-			file3.get();
-			
 		}
-		cout<<"学生信息读取成功！"<<endl;
-		file3.close();
-		file4.close();
+		cout<<"作业信息读取成功！"<<endl;
+		fin.close();
 	}
 }
