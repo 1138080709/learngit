@@ -59,6 +59,7 @@ lklist S_I_1=new S_Information;
 J_pointer Jobs[maxsize];
 S_pointer rear;
 int Job_No=0;
+string Jobs_file[maxsize];
 void main(){
 	int C_num;
 	S_I_1->next=NULL;
@@ -784,7 +785,7 @@ void Out_S_Link(lklist head)
 {
 	S_pointer p;
 	p=head->next;
-	ofstream fout("d:\\code.txt");
+	ofstream fout("D:\\作业管理系统文件\\code.txt");
 	if(!fout)
 	{
 		cout<<"学生信息文件无法打开！"<<endl;
@@ -806,7 +807,7 @@ void In_S_Link(lklist head)
 	int no;
 	string name;
 	S_pointer s;
-	ifstream fin("d:\\code.txt");
+	ifstream fin("D:\\作业管理系统文件\\code.txt");
 	if(!fin)
 	{
 		cout<<"学生信息文件出错，无法读取信息！"<<endl;
@@ -832,28 +833,32 @@ void Out_J_Link()
 {
 	int i;
 	G_pointer p;
-	ofstream foud("d:\\code1.txt");
-	if(!foud)
+	ofstream file("D:\\作业管理系统文件\\filename.txt");
+	if(!file)
 	{
 		cout<<"作业信息文件无法打开！"<<endl;
 		return;
 	}
 	else
 	{
+		file<<Job_No<<endl;
 		for(i=0;i<Job_No;i++)
 		{
-			foud<<Jobs[i].J_no<<" "<<Jobs[i].J_content<<" ";
+			Jobs_file[i]="J_thing"+i;
+			file<<Jobs_file[i]<<endl;
+			ofstream foud("D:\\作业管理系统文件\\"+Jobs_file[i]+".txt");
 			p=Jobs[i].grade->next;
+			foud<<Jobs[i].J_no<<endl;
+			foud<<Jobs[i].J_content<<endl;
 			while(p!=Jobs[i].grade)
 			{
-				foud<<p->S_no<<" "<<p->S_grade<<" ";
+				foud<<p->S_no<<" "<<p->S_grade<<endl;
 				p=p->next;
 			}
-			foud<<endl;
+			foud.close();
 		}
 		cout<<"成功写入文件！"<<endl;
-		foud.close();
-
+		file.close();
 	}
 }
 void In_J_Link()
@@ -861,41 +866,38 @@ void In_J_Link()
 	int no,i,grade,J_no;
 	string J_content;
 	G_pointer s,rear1;
-	ifstream fin("d:\\code1.txt");
-	if(!fin)
+	ifstream file("D:\\作业管理系统文件\\filename.txt");
+	if(!file)
 	{
 		cout<<"作业信息文件出错，无法读取信息！"<<endl;
 	}
 	else
 	{
-		for(i=0;!fin.eof();i++)
+		file>>Job_No;
+		for(i=0;i<Job_No;i++)
 		{
-			cout<<"1"<<endl;
+			file>>Jobs_file[i];
+			ifstream fin("D:\\作业管理系统文件\\"+Jobs_file[i]+".txt");
 			fin>>J_no>>J_content;
-			cout<<"2"<<endl;
 			Jobs[i].J_no=J_no;
 			Jobs[i].J_content=J_content;
-			Job_No++;
 			Jobs[i].grade=new J_grade;
 			Jobs[i].grade->next=NULL;
 			rear1=Jobs[i].grade;
-			while(true)
+			while(!fin.eof())
 			{
-				cout<<"3"<<endl;
-				if(no<0||grade<0)
-					break;
 				fin>>no>>grade;
-				cout<<"4"<<endl;
 				s=new J_grade;
 				s->S_no=no;
 				s->S_grade=grade;
 				rear1->next=s;
 				rear1=s;
+				fin.get();//获取之后一个字符
 			}
-			fin.get();//获取之后一个字符	
+			fin.close();
 			rear1->next=Jobs[i].grade;
 		}
 		cout<<"作业信息读取成功！"<<endl;
-		fin.close();
+		file.close();
 	}
 }
