@@ -8,34 +8,40 @@ typedef struct J_Information J_pointer;
 typedef struct J_grade* G_pointer;
 typedef S_pointer lklist;
 typedef struct List list[maxsize+1];
+/*学生信息*/
 struct S_Information
 {
 	int S_no;
 	string S_name;
 	S_pointer next;
 };
+/*作业信息*/
 struct J_Information
 {
 	int J_no;
 	string J_content;
 	G_pointer grade; 
 };
+/*成绩信息*/
 struct J_grade
 {
 	int S_no;
 	int S_grade;
 	G_pointer next;
 };
+/*成绩列表（用于排序）*/
 struct List
 {
 	int S_no;
 	int S_grade;
 };
+/*声明函数*/
 int T_User();
 int S_User(lklist head);
 void Add_S_Information(lklist head);
 void View_S_Information(lklist head);
 lklist Change_S_Information(lklist head);
+void Delete_S_Information(lklist head);
 void Create_Job(lklist head);
 void View_Job();
 void Delete_Job();
@@ -64,6 +70,7 @@ void Out_S_Link(lklist head);
 void In_S_Link(lklist head);
 void Out_J_Link();
 void In_J_Link();
+/*全局变量*/
 lklist S_I_1=new S_Information;
 J_pointer Jobs[maxsize];
 S_pointer rear;
@@ -77,11 +84,13 @@ void main(){
 	In_J_Link();
 	while(true)
 	{
-		cout<<"请选择用户权限（输入权限编号）"<<endl;
-		cout<<"1、教师权限"<<endl;
-		cout<<"2、学生权限"<<endl;
-		cout<<"0、退出"<<endl;
-		cout<<"（教师权限编号：1	学生权限编号：2	     退出编号：0）"<<endl;
+		cout<<"*********************欢迎使用作业成绩管理系统**********************"<<endl;
+		cout<<"                  请选择用户权限（输入权限编号）"<<endl;
+		cout<<"                  1、教师权限"<<endl;
+		cout<<"                  2、学生权限"<<endl;
+		cout<<"                  0、退出"<<endl;
+		cout<<"        （教师权限编号：1	学生权限编号：2	   退出编号：0）"<<endl;
+		cout<<"*******************************************************************"<<endl;
 		cin>>C_num;
 		switch(C_num)
 		{
@@ -92,6 +101,7 @@ void main(){
 		}
 	}
 }
+/*教师权限*/
 int T_User()
 {
 	string password;
@@ -106,11 +116,12 @@ int T_User()
 		{
 			while(true)
 			{
-				cout<<"欢迎进入教师频道！！！"<<endl;
-				cout<<"1、学生信息管理"<<endl;
-				cout<<"2、作业信息管理"<<endl;
-				cout<<"3、返回"<<endl;
-				cout<<"0、退出"<<endl;
+				cout<<"*************************欢迎进入教师频道**************************"<<endl;
+				cout<<"                        1、学生信息管理"<<endl;
+				cout<<"                        2、作业信息管理"<<endl;
+				cout<<"                        3、返回"<<endl;
+				cout<<"                        0、退出"<<endl;
+				cout<<"*******************************************************************"<<endl;
 				cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
 				cin>>C_num;
 				switch(C_num)
@@ -127,9 +138,10 @@ int T_User()
 			cout<<"密码错误，请重试！！！"<<endl;
 	}
 }
+/*学生权限*/
 int S_User(lklist head)
 {
-	int no,flag=0;
+	int no,flag=0,C_num;
 	S_pointer p;
 	if(head->next==NULL)
 		cout<<"老师还未添加学生信息!"<<endl;
@@ -153,15 +165,15 @@ int S_User(lklist head)
 			else
 				cout<<"查无此学生，请确认后重新输入！"<<endl;
 		}
-		cout<<"欢迎进入学生频道！！！"<<endl;
-		int C_num;
 		while(true)
 		{
-			cout<<"1、查看所有作业成绩"<<endl;
-			cout<<"2、查找作业成绩"<<endl;
-			cout<<"3、统计作业成绩"<<endl;
-			cout<<"4、返回"<<endl;
-			cout<<"0、退出"<<endl;
+			cout<<"*************************欢迎进入教师频道**************************"<<endl;
+			cout<<"                       1、查看所有作业成绩"<<endl;
+			cout<<"                       2、查找作业成绩"<<endl;
+			cout<<"                       3、统计作业成绩"<<endl;
+			cout<<"                       4、返回"<<endl;
+			cout<<"                       0、退出"<<endl;
+			cout<<"*******************************************************************"<<endl;
 			cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
 			cin>>C_num;
 			switch(C_num)
@@ -176,20 +188,23 @@ int S_User(lklist head)
 		}
 	}
 }
+/*作业信息管理*/
 int J_I_Control()
 {
 	int J_num;
 	while(true)
 	{
-		cout<<"1、创建作业"<<endl;
-		cout<<"2、查看作业"<<endl;
-		cout<<"3、删除作业"<<endl;
-		cout<<"4、登记成绩"<<endl;
-		cout<<"5、查询成绩"<<endl;
-		cout<<"6、更改成绩"<<endl;
-		cout<<"7、统计成绩"<<endl;
-		cout<<"8、返回"<<endl;
-		cout<<"0、退出"<<endl;
+		cout<<"**************************作业信息管理****************************"<<endl;
+		cout<<"                          1、创建作业"<<endl;
+		cout<<"                          2、查看作业"<<endl;
+		cout<<"                          3、删除作业"<<endl;
+		cout<<"                          4、登记成绩"<<endl;
+		cout<<"                          5、查询成绩"<<endl;
+		cout<<"                          6、更改成绩"<<endl;
+		cout<<"                          7、统计成绩"<<endl;
+		cout<<"                          8、返回"<<endl;
+		cout<<"                          0、退出"<<endl;
+		cout<<"*******************************************************************"<<endl;
 		cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
 		cin>>J_num;
 		switch(J_num)
@@ -213,16 +228,20 @@ int J_I_Control()
 		}
 	}
 }
+/*学生信息管理*/
 int S_I_Control()
 {
 	int S_num;
 	while(true)
 	{
-		cout<<"1、添加学生信息"<<endl;
-		cout<<"2、查看学生信息"<<endl;
-		cout<<"3、修改学生信息"<<endl;
-		cout<<"4、返回"<<endl;
-		cout<<"0、退出"<<endl;
+		cout<<"**************************学生信息管理****************************"<<endl;
+		cout<<"                        1、添加学生信息"<<endl;
+		cout<<"                        2、查看学生信息"<<endl;
+		cout<<"                        3、修改学生信息"<<endl;
+		cout<<"                        4、删除学生信息"<<endl;
+		cout<<"                        5、返回"<<endl;
+		cout<<"                        0、退出"<<endl;
+		cout<<"*******************************************************************"<<endl;
 		cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
 		cin>>S_num;
 		switch(S_num)
@@ -236,12 +255,14 @@ int S_I_Control()
 					   View_S_Information(S_I_1);
 					break;
 			case 3:S_I_1=Change_S_Information(S_I_1);Out_S_Link(S_I_1);break;
-			case 4:return 1;
+			case 4:Delete_S_Information(S_I_1);break;
+			case 5:return 1;
 			case 0:exit(0);break;
 			default:cout<<"请输入正确的用户编号！"<<endl;break;
 		}
 	}
 }
+/*添加学生信息功能*/
 void Add_S_Information(lklist head)
 {
 	S_pointer s;
@@ -268,6 +289,7 @@ void Add_S_Information(lklist head)
 	rear->next=head;
 	
 }
+/*查看学生信息功能*/
 void View_S_Information(lklist head)
 {
 	S_pointer p;
@@ -284,6 +306,7 @@ void View_S_Information(lklist head)
 		}
 	}
 }
+/*修改学生信息功能*/
 lklist Change_S_Information(lklist head)
 {
 	S_pointer p,q;
@@ -358,6 +381,50 @@ lklist Change_S_Information(lklist head)
 		return q;
 	}
 }
+/*修改删除信息功能*/
+void Delete_S_Information(lklist head)
+{
+	S_pointer p,q,p1;
+	int no,flag=0;
+	if(head->next==NULL)
+		cout<<"暂无学生信息"<<endl;
+	else
+	{
+		p=head->next;
+		q=head;
+		while(true)
+		{
+			cout<<"请输入需要删除的学生学号"<<endl;
+			cin>>no;
+			while(p!=head)
+			{
+				if(p->S_no==no)
+					flag=1;
+				p=p->next;
+			}
+			p=p->next;
+			if(flag==0)
+				cout<<"没有该学生信息，请确认后重新输入"<<endl;
+			else
+				break;
+		}
+		while(p!=head)
+		{
+			if(p->S_no==no)
+			{
+				p1=p;
+				p=q;
+				p->next=p1->next;
+				free(p1);
+				cout<<"删除成功！"<<endl;
+				break;
+			}
+			p=p->next;
+			q=q->next;
+		}
+	}
+}
+/*创建作业功能*/
 void Create_Job(lklist head)
 {
 	string Job_content;
@@ -397,6 +464,7 @@ void Create_Job(lklist head)
 			break;
 	}
 }
+/*查看作业功能*/
 void View_Job()
 {
 	if(Job_No==0)
@@ -410,6 +478,7 @@ void View_Job()
 		}
 	}
 }
+/*删除作业功能*/
 void Delete_Job()
 {
 	G_pointer p,q;
@@ -447,16 +516,19 @@ void Delete_Job()
 		cout<<"作业删除完毕！"<<endl;
 	}
 }
+/*登记成绩*/
 void Register_J_Grade()
 {	
 	int num;
 	while(true)
 		{
-			cout<<"1、按作业号登记"<<endl;
-			cout<<"2、按学号登记"<<endl;
-			cout<<"3、按作业号与学号登记"<<endl;
-			cout<<"4、返回"<<endl;
-			cout<<"0、退出"<<endl;
+			cout<<"*****************************登记成绩*****************************"<<endl;
+			cout<<"                        1、按作业号登记"<<endl;
+			cout<<"                        2、按学号登记"<<endl;
+			cout<<"                        3、按作业号与学号登记"<<endl;
+			cout<<"                        4、返回"<<endl;
+			cout<<"                        0、退出"<<endl;
+			cout<<"*******************************************************************"<<endl;
 			cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
 			cin>>num;
 			switch(num)
@@ -476,6 +548,7 @@ void Register_J_Grade()
 			}
 		}
 }
+/*按作业号登记成绩*/
 void Register_J_Grade1()
 {
 	G_pointer p;
@@ -512,6 +585,7 @@ void Register_J_Grade1()
 			cout<<"所有学生成绩输入完毕！"<<endl;
 	}
 }
+/*按学号登记成绩*/
 void Register_J_Grade2(lklist head)
 {	
 	G_pointer p;
@@ -558,6 +632,7 @@ void Register_J_Grade2(lklist head)
 			cout<<"该学生成绩输入完毕！"<<endl;
 	}
 }
+/*按作业号和学号登记成绩*/
 void Register_J_Grade3(lklist head)
 {	
 	G_pointer p;
@@ -611,16 +686,19 @@ void Register_J_Grade3(lklist head)
 			cout<<"该学生成绩输入完毕！"<<endl;
 	}
 }
+/*更改成绩*/
 void Change_J_Grade()
 {
 	int num;
 	while(true)
 		{
-			cout<<"1、按作业号修改"<<endl;
-			cout<<"2、按学号修改"<<endl;
-			cout<<"3、按作业号与学号修改"<<endl;
-			cout<<"4、返回"<<endl;
-			cout<<"0、退出"<<endl;
+			cout<<"*****************************更改成绩*****************************"<<endl;
+			cout<<"                         1、按作业号修改"<<endl;
+			cout<<"                         2、按学号修改"<<endl;
+			cout<<"                         3、按作业号与学号修改"<<endl;
+			cout<<"                         4、返回"<<endl;
+			cout<<"                         0、退出"<<endl;
+			cout<<"*******************************************************************"<<endl;
 			cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
 			cin>>num;
 			switch(num)
@@ -640,6 +718,7 @@ void Change_J_Grade()
 			}
 		}
 }
+/*按作业号修改成绩*/
 void Change_J_Grade1()
 {
 	int num,grade,flag=0;
@@ -670,6 +749,7 @@ void Change_J_Grade1()
 		cout<<"修改成功！"<<endl;
 	}
 }
+/*按学号修改成绩*/
 void Change_J_Grade2(lklist head)
 {
 	int num,grade,flag=0;
@@ -713,6 +793,7 @@ void Change_J_Grade2(lklist head)
 		cout<<"修改成功！"<<endl;
 	}
 }
+/*按作业号和学号修改成绩*/
 void Change_J_Grade3()
 {
 	int num,no,grade,flag=0;
@@ -760,16 +841,19 @@ void Change_J_Grade3()
 		}
 	}
 }
+/*查询成绩*/
 void Look_Grade()
 {
 	int num;
 	while(true)
 		{
-			cout<<"1、查询个人成绩"<<endl;
-			cout<<"2、查询所有成绩"<<endl;
-			cout<<"3、查询没有成绩的学生"<<endl;
-			cout<<"4、返回"<<endl;
-			cout<<"5、退出"<<endl;
+			cout<<"*****************************查询成绩*****************************"<<endl;
+			cout<<"                         1、查询个人成绩"<<endl;
+			cout<<"                         2、查询所有成绩"<<endl;
+			cout<<"                         3、查询没有成绩的学生"<<endl;
+			cout<<"                         4、返回"<<endl;
+			cout<<"                         0、退出"<<endl;
+			cout<<"*******************************************************************"<<endl;
 			cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
 			cin>>num;
 			switch(num)
@@ -780,11 +864,12 @@ void Look_Grade()
 					   break;
 				case 3:View_NG_Student();break;
 				case 4:return;
-				case 5:exit(0);break;
+				case 0:exit(0);break;
 				default:cout<<"请输入正确的用户编号！"<<endl;break;
 			}
 		}
 }
+/*查询个人成绩*/
 void View_J_Grade()
 {
 	int num;
@@ -812,6 +897,7 @@ void View_J_Grade()
 		}
 	}
 }
+/*查询所有成绩*/
 void View_A_Grade()
 {
 	int i;
@@ -827,6 +913,7 @@ void View_A_Grade()
 		}
 	}
 }
+/*查询没有成绩的学生*/
 void View_NG_Student()
 {
 	int i,flag=0;
@@ -847,6 +934,7 @@ void View_NG_Student()
 	if(flag==0)
 		cout<<"暂无没有成绩的学生"<<endl;
 }
+/*统计成绩*/
 void Count_Grade()
 {
 	int num,ave=0;
@@ -856,11 +944,13 @@ void Count_Grade()
 	{
 		while(true)
 		{
-			cout<<"1、查询作业平均分"<<endl;
-			cout<<"2、作业降序"<<endl;
-			cout<<"3、作业升序"<<endl;
-			cout<<"4、返回"<<endl;
-			cout<<"5、退出"<<endl;
+			cout<<"*****************************统计成绩*****************************"<<endl;
+			cout<<"                        1、查询作业平均分"<<endl;
+			cout<<"                        2、作业降序"<<endl;
+			cout<<"                        3、作业升序"<<endl;
+			cout<<"                        4、返回"<<endl;
+			cout<<"                        0、退出"<<endl;
+			cout<<"*******************************************************************"<<endl;
 			cout<<"请选择您要进行的操作（输入权限编号）"<<endl;
 			cin>>num;
 			switch(num)
@@ -871,12 +961,13 @@ void Count_Grade()
 				case 2:Job_DESC();break;
 				case 3:Job_ASC();break;
 				case 4:return;
-				case 5:exit(0);break;
+				case 0:exit(0);break;
 				default:cout<<"请输入正确的用户编号！"<<endl;break;
 			}
 		}
 	}
 }
+/*查询作业平均分*/
 int Job_average()
 {
 	int num,count=0,num1=0;
@@ -898,6 +989,7 @@ int Job_average()
 	}
 	return	count/num1;
 }
+/*作业降序*/
 void Job_DESC()
 {
 	int num,x=1;
@@ -927,6 +1019,7 @@ void Job_DESC()
 	}
 
 }
+/*作业升序*/
 void Job_ASC()
 {
 	int num,x=1;
@@ -956,6 +1049,7 @@ void Job_ASC()
 	}
 
 }
+/*直接插入法（降序）*/
 void InsertSort1(list R,int n)
 {
 	int i,j;
@@ -972,6 +1066,7 @@ void InsertSort1(list R,int n)
 		R[j+1]=R[0];
 	}
 }
+/*直接插入法（升序）*/
 void InsertSort2(list R,int n)
 {
 	int i,j;
@@ -988,6 +1083,7 @@ void InsertSort2(list R,int n)
 		R[j+1]=R[0];
 	}
 }
+/*查看所有作业成绩*/
 void Look_S_A_grade(int no)
 {
 	int flag=0;
@@ -1015,6 +1111,7 @@ void Look_S_A_grade(int no)
 		}
 	}
 }
+/*查找作业成绩*/
 void View_S_grade(int no)
 {
 	int num,flag=0;
@@ -1046,6 +1143,7 @@ void View_S_grade(int no)
 		}
 	}
 }
+/*统计作业成绩*/
 void Register_S_grade(int no)
 {
 	int flag=0,count=0,num=0,ave=0;
@@ -1077,6 +1175,7 @@ void Register_S_grade(int no)
 		cout<<"作业平均分："<<ave<<endl;
 	}
 }
+/*学生信息的文件输出*/
 void Out_S_Link(lklist head)
 {
 	S_pointer p;
@@ -1099,6 +1198,7 @@ void Out_S_Link(lklist head)
 		fout.close();
 	}
 }
+/*学生信息的文件输入*/
 void In_S_Link(lklist head)
 {
 	int no;
@@ -1107,7 +1207,7 @@ void In_S_Link(lklist head)
 	ifstream fin("D:\\作业管理系统文件\\code.txt");
 	if(!fin)
 	{
-		cout<<"学生信息文件出错，无法读取信息！"<<endl;
+		cout<<"暂无学生信息！"<<endl;
 	}
 	else
 	{
@@ -1126,6 +1226,7 @@ void In_S_Link(lklist head)
 		fin.close();
 	}
 }
+/*作业信息的文件输出*/
 void Out_J_Link()
 {
 	int i;
@@ -1158,6 +1259,7 @@ void Out_J_Link()
 		file.close();
 	}
 }
+/*作业信息的文件输出*/
 void In_J_Link()
 {
 	int no,i,n,grade,J_no;
@@ -1166,7 +1268,7 @@ void In_J_Link()
 	ifstream file("D:\\作业管理系统文件\\filename.txt");
 	if(!file)
 	{
-		cout<<"作业信息文件出错，无法读取信息！"<<endl;
+		cout<<"暂无作业信息！"<<endl;
 	}
 	else
 	{
